@@ -19,7 +19,7 @@ import {
 import { FastField, FieldProps, useFormikContext } from 'formik';
 import React, { InputHTMLAttributes } from 'react';
 import { invoice } from '../types';
-import { calculateTotal } from '../utils/total';
+import { calculateTotal } from '../utils/helperFunctions';
 
 /**
  * props for CheckboxField, InputField, NumberField, and TextAreaField.
