@@ -11,9 +11,15 @@ import {
   NumberInputField,
   NumberInputStepper,
   Checkbox,
+  Stat,
+  StatHelpText,
+  StatLabel,
+  StatNumber,
 } from '@chakra-ui/react';
-import { FastField, FieldProps } from 'formik';
+import { FastField, FieldProps, useFormikContext } from 'formik';
 import React, { InputHTMLAttributes } from 'react';
+import { invoice } from '../types';
+import { calculateTotal } from '../utils/total';
 
 /**
  * props for CheckboxField, InputField, NumberField, and TextAreaField.
@@ -162,3 +168,30 @@ export const CheckboxField = ({
     </FastField>
   </Flex>
 );
+
+/**
+ * Custom `Stat` component from chakra-ui that displays the form `total` w/ predefined styling.
+ *
+ * Specifically for `InvoiceForm`
+ *
+ * @see chakra-ui {@link https://chakra-ui.com/docs/data-display/stat `Stat` Docs}
+ */
+
+export const InvoiceStat = () => {
+  const {
+    values: { total, items },
+    setFieldValue,
+  } = useFormikContext<invoice>();
+
+  React.useEffect(() => {
+    setFieldValue('total', calculateTotal(items));
+  }, [total, items, setFieldValue]);
+
+  return (
+    <Stat width="125px" textAlign="right">
+      <StatLabel>Invoice Total</StatLabel>
+      <StatNumber fontSize="4xl">${total}</StatNumber>
+      <StatHelpText>{`${items.length} total items`}</StatHelpText>
+    </Stat>
+  );
+};
