@@ -4,10 +4,9 @@
   "description": "Front End application that allows a user to create a new invoice and add line items that communicates with fattmerchants api",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon dist/index.js",
-    "start": "react-scripts start",
-    "watch": "tsc -w",
-    "next": "next dev"
+    "dev": "next dev",
+    "prod": "next build",
+    "start": "next start"
   },
   "repository": "https://github.com/jonescamilla/fattmerchant",
   "author": "Jonathan Wyatt Escamilla",
