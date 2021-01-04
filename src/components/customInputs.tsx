@@ -5,6 +5,11 @@ import {
   Input,
   FormErrorMessage,
   Textarea,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
 } from '@chakra-ui/react';
 import { FastField, FieldProps } from 'formik';
 import React, { InputHTMLAttributes } from 'react';
@@ -91,3 +96,42 @@ export const TextAreaField: React.FC<customInputsProps> = ({
     </Flex>
   );
 };
+
+/**
+ * Custom formik `Field` displayed as chakra-ui `NumberInput` w/ predefined styling.
+ *
+ * Offers `FormLabel` through JSX Attribute `label`
+ * @see chakra-ui {@link https://chakra-ui.com/docs/form/number-input `NumberInput` Docs}
+ * @see Formik {@link https://formik.org/docs/api/field `Field` Docs}
+ */
+export const NumberField = ({
+  label,
+  name,
+  precision,
+}: customInputsProps): JSX.Element => (
+  <Flex flexGrow={1} p="2" maxW="170px">
+    {label ? <FormLabel htmlFor={name}>{label}</FormLabel> : null}
+    <FastField name={name}>
+      {({ form, field, meta }: FieldProps) => (
+        <FormControl name={name} isInvalid={!!meta.error && meta.touched}>
+          <NumberInput
+            id={name}
+            min={0}
+            {...field}
+            onChange={async (value) => form.setFieldValue(field.name, value)}
+            allowMouseWheel
+            precision={precision}
+            name={name}
+          >
+            <NumberInputField />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+          </NumberInput>
+          <FormErrorMessage>{meta.error}</FormErrorMessage>
+        </FormControl>
+      )}
+    </FastField>
+  </Flex>
+);
