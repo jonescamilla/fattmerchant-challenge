@@ -1,7 +1,7 @@
-import { Flex, useColorMode } from '@chakra-ui/react';
+import { Box, useColorMode } from '@chakra-ui/react';
 
 /**
- * function that returns `JSX.Element`s with pre-configured `JSX Attributes`
+ * function that returns a `JSX.Element` with pre-configured `JSX Attributes`
  * @param props any children you wish to render within Container or JSX attributes you wish to add
  */
 export const Container = (props: any) => {
@@ -11,10 +11,10 @@ export const Container = (props: any) => {
 
   const color = { light: 'black', dark: 'white' };
   return (
-    <Flex
-      direction="column"
-      alignItems="center"
-      justifyContent="flex-start"
+    <Box
+      overflow="auto"
+      height="100vh"
+      width="100%"
       bg={bgColor[colorMode]}
       color={color[colorMode]}
       {...props}
