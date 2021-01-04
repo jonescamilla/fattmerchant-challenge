@@ -1,14 +1,14 @@
-import { Text } from '@chakra-ui/react';
 import { Container } from '../components/Container';
+import { InvoiceForm } from '../components/InvoiceForm';
 // UI toggle
-import { DarkModeSwitch } from '../components/DarkModeSwitch';
+import { DarkModeSwitch } from '../components/ColorModeSwitch';
 
 /** starting point of application */
 const Index = () => {
   return (
-    <Container height="100vh">
-      <Text>hello there</Text>
+    <Container>
       <DarkModeSwitch />
+      <InvoiceForm />
     </Container>
   );
 };
