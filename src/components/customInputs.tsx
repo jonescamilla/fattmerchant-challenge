@@ -10,6 +10,7 @@ import {
   NumberInput,
   NumberInputField,
   NumberInputStepper,
+  Checkbox,
 } from '@chakra-ui/react';
 import { FastField, FieldProps } from 'formik';
 import React, { InputHTMLAttributes } from 'react';
@@ -130,6 +131,32 @@ export const NumberField = ({
             </NumberInputStepper>
           </NumberInput>
           <FormErrorMessage>{meta.error}</FormErrorMessage>
+        </FormControl>
+      )}
+    </FastField>
+  </Flex>
+);
+
+/**
+ * Custom formik `Field` displaying as chakra-ui `CheckBox` w/ predefined styling.
+ *
+ * Offers `FormLabel` through JSX Attribute `label`
+ * @see chakra-ui {@link https://chakra-ui.com/docs/form/checkbox `CheckBox` Docs}
+ * @see Formik {@link https://formik.org/docs/api/field `Field` Docs}
+ */
+
+export const CheckboxField = ({
+  name,
+  label,
+}: customInputsProps): JSX.Element => (
+  <Flex p="2" flexGrow={1} flexDir="row" id={`div.${name}`}>
+    <FastField name={name}>
+      {({ field }: FieldProps) => (
+        <FormControl name={name}>
+          <Flex flexGrow={1} flexDir="row">
+            <FormLabel htmlFor={name}>{label}</FormLabel>
+            <Checkbox size="lg" {...field} />
+          </Flex>
         </FormControl>
       )}
     </FastField>
