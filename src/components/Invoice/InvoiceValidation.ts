@@ -13,6 +13,11 @@ export const invoiceValidationSchema = yup.object({
   items: yup.array().of(
     yup.object().shape({
       // `details`: is a string, is required to submit and must not exceed 100 characters
+      name: yup
+        .string()
+        .min(3, 'Too short!')
+        .max(25, 'No more than 25 characters')
+        .required('Name is required'),
       details: yup
         .string()
         .min(5, 'Too short!')
