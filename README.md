@@ -2,8 +2,10 @@
 
 Front End application that allows a user to create a new Invoice either with already created items or new items.
 
-[Imgur](https://imgur.com/cTQdHyL)
-[Imgur](https://imgur.com/xP2ky6p)
+![alt text](https://i.imgur.com/cTQdHyL.png "application")
+
+
+![alt text](https://i.imgur.com/xP2ky6p.png "lighthouse performance")
 ## Technologies
 
 - Typescript - [4.1](https://github.com/microsoft/TypeScript)
