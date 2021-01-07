@@ -1,5 +1,5 @@
 import { Container } from '../components/Container';
-import { InvoiceForm } from '../components/InvoiceForm';
+import InvoiceForm from '../components/Invoice/InvoiceForm';
 // UI toggle
 import { DarkModeSwitch } from '../components/ColorModeSwitch';
 
