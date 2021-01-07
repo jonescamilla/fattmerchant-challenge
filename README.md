@@ -2,6 +2,9 @@
 
 Front End application that allows a user to create a new Invoice either with already created items or new items.
 
+![application_img](https://imgur.com/cTQdHyL)
+![performance_img](https://imgur.com/xP2ky6p)
+
 ## Technologies
 
 - Typescript - [4.1](https://github.com/microsoft/TypeScript)
