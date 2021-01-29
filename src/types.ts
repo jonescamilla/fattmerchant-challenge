@@ -66,3 +66,23 @@ export type customFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   precision?: number;
   index?: number;
 };
+
+export type customers = {
+  total: string;
+  current_page: string;
+  last_page: string;
+  next_page_url: null | string;
+  prev_page_url: null | string;
+  data: customerData[];
+};
+
+export type customerData = {
+  id: string;
+  firstname: string;
+  lastname: string;
+  gravatar: string;
+  phone: string;
+  company: string;
+  email: string;
+  cc_emails: string[] | null;
+};

@@ -8,11 +8,14 @@ import { priceFormatter } from './InvoiceUtils';
  * Chakra-ui `Select` component that appends selected option to end of `items` array w/ predefined styling
  * Handles state not loaded through param `loading`
  *
+ * @see https://chakra-ui.com/docs/overlay/tooltip
+ * {@link https://chakra-ui.com/docs/overlay/tooltip}
  * @see chakra-ui {@link https://chakra-ui.com/docs/overlay/tooltip `Select` Docs}
  * @see chakra-ui {@link https://chakra-ui.com/docs/form/select `Tooltip` Docs}
  * @see chakra-ui {@link https://chakra-ui.com/docs/feedback/skeleton `Skeleton` Docs}
  * @see Formik {@link https://formik.org/docs/api/useFormikContext `useFormikContext()` Docs}
  */
+//
 export const ItemSelect = ({
   loading,
   catalogItems,
@@ -29,14 +32,20 @@ export const ItemSelect = ({
     // if we have not loaded items don't add item
     if (!catalogItems) return;
     const index = parseInt(event.target.value);
-    const catalogItem: catalogData | undefined = catalogItems?.[index];
+    const {
+      item,
+      details,
+      price,
+      is_discount,
+    }: catalogData | undefined = catalogItems?.[index];
+    // append items with new item w/ values from selection
     setFieldValue('items', [
       ...items,
       {
-        name: catalogItem.item,
-        details: catalogItem?.details === null ? '' : catalogItem?.details,
-        price: priceFormatter(catalogItem.price),
-        discounted: catalogItem?.is_discount,
+        name: item,
+        details: details === null ? '' : details,
+        price: priceFormatter(price),
+        discounted: is_discount,
         quantity: 0,
       },
     ]);
