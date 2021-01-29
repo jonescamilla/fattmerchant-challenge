@@ -1,11 +1,4 @@
-import {
-  Flex,
-  Box,
-  FormLabel,
-  Select,
-  Skeleton,
-  Tooltip,
-} from '@chakra-ui/react';
+import { Flex, FormLabel, Select, Skeleton, Tooltip } from '@chakra-ui/react';
 import React from 'react';
 import { customerData } from '../../types';
 
