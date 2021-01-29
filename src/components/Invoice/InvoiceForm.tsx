@@ -102,11 +102,6 @@ const InvoiceForm = () => {
       >
         {({ values, isSubmitting }) => (
           <Form>
-            <CustomerSelection
-              loading={loading}
-              customerList={customers?.data}
-              setInvoiceCustomer={setInvoiceCustomer}
-            />
             <TextAreaField
               name="memo"
               label="Memo"
@@ -116,20 +111,28 @@ const InvoiceForm = () => {
             <FieldArray name="items">
               {({ remove, push }: ArrayHelpers) => (
                 <>
-                  <Flex mt="2" mb="2">
-                    <ItemSelect
+                  <Flex mt="2" mb="2" justifyContent="space-between">
+                    <Flex alignItems="flex-start">
+                      <ItemSelect
+                        loading={loading}
+                        catalogItems={catalog?.data}
+                      />
+                      <Tooltip hasArrow label="Add empty item">
+                        <Button
+                          ml="2"
+                          mr="2"
+                          type="button"
+                          onClick={() => push(itemState)}
+                        >
+                          Add Empty
+                        </Button>
+                      </Tooltip>
+                    </Flex>
+                    <CustomerSelection
                       loading={loading}
-                      catalogItems={catalog?.data}
+                      customerList={customers?.data}
+                      setInvoiceCustomer={setInvoiceCustomer}
                     />
-                    <Tooltip hasArrow label="Add empty item">
-                      <Button
-                        ml="2"
-                        type="button"
-                        onClick={() => push(itemState)}
-                      >
-                        Add Empty
-                      </Button>
-                    </Tooltip>
                   </Flex>
 
                   <Box overflowY="auto" maxH="50vh">
