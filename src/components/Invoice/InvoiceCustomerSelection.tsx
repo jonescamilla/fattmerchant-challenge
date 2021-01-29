@@ -1,4 +1,12 @@
-import { Select, Skeleton, Tooltip } from '@chakra-ui/react';
+import {
+  Flex,
+  Box,
+  FormLabel,
+  Select,
+  Skeleton,
+  Tooltip,
+} from '@chakra-ui/react';
+import React from 'react';
 import { customerData } from '../../types';
 
 /**
@@ -24,26 +32,30 @@ export const CustomerSelection = ({
   >;
 }) => {
   return (
-    <Skeleton isLoaded={!loading} w="200px">
+    <Skeleton isLoaded={!loading} justifySelf="flex-end">
       <Tooltip hasArrow label="Select the customer">
-        <Select
-          defaultValue=""
-          onChange={(event) => {
-            const index = parseInt(event.target.value);
-            setInvoiceCustomer(customerList?.[index]);
-          }}
-          alignContent="center"
-        >
-          <option value="" hidden disabled>
-            Select Customer...
-          </option>
-          {customerList?.map(({ id, firstname, lastname }, index) => (
-            <option
-              key={id}
-              value={index}
-            >{`${lastname}, ${firstname}`}</option>
-          ))}
-        </Select>
+        <Flex alignItems="center">
+          <FormLabel>Customer</FormLabel>
+          <Select
+            w="200px"
+            defaultValue=""
+            onChange={(event) => {
+              const index = parseInt(event.target.value);
+              setInvoiceCustomer(customerList?.[index]);
+            }}
+            alignContent="center"
+          >
+            <option value="" hidden disabled>
+              Select Customer...
+            </option>
+            {customerList?.map(({ id, firstname, lastname }, index) => (
+              <option
+                key={id}
+                value={index}
+              >{`${lastname}, ${firstname}`}</option>
+            ))}
+          </Select>
+        </Flex>
       </Tooltip>
     </Skeleton>
   );
