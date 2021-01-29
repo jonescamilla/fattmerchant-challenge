@@ -12,7 +12,7 @@ import { ArrayHelpers, FieldArray, Form, Formik } from 'formik';
 // FattMerchantApi
 import FattMerchantApi from '../../api';
 // types
-import { catalog, /* customerData, customers, */ invoice, item } from '../../types';
+import { catalog, customerData, customers, invoice, item } from '../../types';
 // more generic custom formik components
 import { CheckboxField } from '../customFormik/CheckBoxField';
 import { InputField } from '../customFormik/InputField';
@@ -26,6 +26,7 @@ import { Stat } from './InvoiceStat';
 import { invoiceValidationSchema } from './InvoiceValidation';
 // util
 import { formToast } from './InvoiceUtils';
+import { CustomerSelection } from './InvoiceCustomerSelection';
 
 /**
  * Form of an invoice utilizing: `Formik` for form management and `Yup` for validation of form w/ predefined styling
@@ -36,10 +37,10 @@ const InvoiceForm = () => {
   // catalog state set by useEffect
   const [catalog, setCatalog] = useState<catalog | null>(null);
   // customers array set by useEffect
-  // const [customers, setCustomers] = useState<customers | null>(null);
-  // const [invoiceCustomer, setInvoiceCustomer] = useState<customerData | null>(
-  // null
-  // );
+  const [customers, setCustomers] = useState<customers | null>(null);
+  const [invoiceCustomer, setInvoiceCustomer] = useState<
+    customerData | undefined
+  >();
 
   // collect catalog items from FattMerchant API
   useEffect(() => {
@@ -47,9 +48,9 @@ const InvoiceForm = () => {
     FattMerchantApi.retrieveAllCatalogItems().then((value) => {
       setCatalog(value);
     });
-    // FattMerchantApi.findAllCustomers().then((value) => {
-    // setCustomers(value);
-    // });
+    FattMerchantApi.findAllCustomers().then((value) => {
+      setCustomers(value);
+    });
     setLoading(false);
   }, [setCatalog]);
 
@@ -92,6 +93,7 @@ const InvoiceForm = () => {
             tax: '0.10',
             subtotal: `${total}`,
             lineItems: items,
+            customer_id: invoiceCustomer?.id,
           })
             .then(() => toast(formToast('success')))
             .catch(() => toast(formToast('error')));
@@ -109,20 +111,28 @@ const InvoiceForm = () => {
             <FieldArray name="items">
               {({ remove, push }: ArrayHelpers) => (
                 <>
-                  <Flex mt="2" mb="2">
-                    <ItemSelect
+                  <Flex mt="2" mb="2" justifyContent="space-between">
+                    <Flex alignItems="flex-start">
+                      <ItemSelect
+                        loading={loading}
+                        catalogItems={catalog?.data}
+                      />
+                      <Tooltip hasArrow label="Add empty item">
+                        <Button
+                          ml="2"
+                          mr="2"
+                          type="button"
+                          onClick={() => push(itemState)}
+                        >
+                          Add Empty
+                        </Button>
+                      </Tooltip>
+                    </Flex>
+                    <CustomerSelection
                       loading={loading}
-                      catalogItems={catalog?.data}
+                      customerList={customers?.data}
+                      setInvoiceCustomer={setInvoiceCustomer}
                     />
-                    <Tooltip hasArrow label="Add empty item">
-                      <Button
-                        ml="2"
-                        type="button"
-                        onClick={() => push(itemState)}
-                      >
-                        Add Empty
-                      </Button>
-                    </Tooltip>
                   </Flex>
 
                   <Box overflowY="auto" maxH="50vh">

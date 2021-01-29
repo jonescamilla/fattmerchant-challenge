@@ -45,22 +45,25 @@ class FattMerchantApi {
     tax,
     subtotal,
     lineItems,
+    customer_id,
   }: {
     tax: string;
     subtotal: string;
     lineItems: item[];
     memo: string;
+    customer_id: string | undefined;
   }) {
     return axios({
       method: 'post',
       url: `${this.FM_API}/invoice`,
       headers: this.headers,
       data: {
+        customer_id,
         meta: {
-          memo: memo,
-          tax: tax,
-          subtotal: subtotal,
-          lineItems: lineItems,
+          memo,
+          tax,
+          subtotal,
+          lineItems,
         },
         // required by api
         total: subtotal,
@@ -76,6 +79,7 @@ class FattMerchantApi {
         console.error(`Error in createAnInvoice: ${error.message}`);
       });
   }
+
   /**
    * returns promise of axios 'get' to /customer
    *
