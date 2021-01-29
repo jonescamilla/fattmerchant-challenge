@@ -12,7 +12,7 @@ import { ArrayHelpers, FieldArray, Form, Formik } from 'formik';
 // FattMerchantApi
 import FattMerchantApi from '../../api';
 // types
-import { catalog, invoice, item } from '../../types';
+import { catalog, /* customerData, customers, */ invoice, item } from '../../types';
 // more generic custom formik components
 import { CheckboxField } from '../customFormik/CheckBoxField';
 import { InputField } from '../customFormik/InputField';
@@ -31,21 +31,28 @@ import { formToast } from './InvoiceUtils';
  * Form of an invoice utilizing: `Formik` for form management and `Yup` for validation of form w/ predefined styling
  */
 const InvoiceForm = () => {
-  // catalog state set by useEffect
-  const [catalog, setCatalog] = useState<catalog | null>(null);
   // loading boolean/toggle for skeletons on items that require catalogState
   const [loading, setLoading] = useState<boolean>(false);
+  // catalog state set by useEffect
+  const [catalog, setCatalog] = useState<catalog | null>(null);
+  // customers array set by useEffect
+  // const [customers, setCustomers] = useState<customers | null>(null);
+  // const [invoiceCustomer, setInvoiceCustomer] = useState<customerData | null>(
+  // null
+  // );
+
   // collect catalog items from FattMerchant API
   useEffect(() => {
     setLoading(true);
-    FattMerchantApi.retrieveAllCatalogItems();
     FattMerchantApi.retrieveAllCatalogItems().then((value) => {
       setCatalog(value);
     });
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+    // FattMerchantApi.findAllCustomers().then((value) => {
+    // setCustomers(value);
+    // });
+    setLoading(false);
   }, [setCatalog]);
+
   /** initial state of item in `initialValues.items` */
   const itemState: item = {
     name: '',
@@ -54,6 +61,7 @@ const InvoiceForm = () => {
     price: '0.00',
     discounted: false,
   };
+
   /**
    * Initial values for an invoice used/passed into in `Formik`
    *
@@ -64,6 +72,7 @@ const InvoiceForm = () => {
     items: [itemState],
     total: '0.00',
   };
+
   /** alert used to give feedback to user on form success or form error on submit*/
   const toast = useToast();
 
@@ -76,12 +85,13 @@ const InvoiceForm = () => {
       <Formik
         initialValues={initialValues}
         // formik `onSubmit` automatically sets submitting boolean if anon-function is async
-        onSubmit={async (values) => {
+        onSubmit={async ({ memo, total, items }) => {
           await FattMerchantApi.createAnInvoice({
             // temporarily hard coded
+            memo: memo,
             tax: '0.10',
-            subtotal: `${values.total}`,
-            lineItems: values.items,
+            subtotal: `${total}`,
+            lineItems: items,
           })
             .then(() => toast(formToast('success')))
             .catch(() => toast(formToast('error')));
@@ -95,6 +105,7 @@ const InvoiceForm = () => {
               label="Memo"
               placeholder="your memo..."
             />
+
             <FieldArray name="items">
               {({ remove, push }: ArrayHelpers) => (
                 <>
@@ -113,11 +124,12 @@ const InvoiceForm = () => {
                       </Button>
                     </Tooltip>
                   </Flex>
+
                   <Box overflowY="auto" maxH="50vh">
                     {values.items.length > 0 &&
                       values.items.map((_item, index) => (
                         <Flex
-                        alignItems='flex-start'
+                          alignItems="flex-start"
                           key={`items.${index}`}
                           pt={index === 0 ? '20px' : 0}
                         >
@@ -165,6 +177,7 @@ const InvoiceForm = () => {
               )}
             </FieldArray>
             <Divider mt="4" />
+
             <Flex mt="2" justifyContent="flex-end">
               <Flex width="125px" flexDir="column">
                 <Stat />
@@ -173,6 +186,7 @@ const InvoiceForm = () => {
                 </Button>
               </Flex>
             </Flex>
+
             <ClearForm />
           </Form>
         )}

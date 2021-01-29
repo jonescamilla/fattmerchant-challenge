@@ -32,8 +32,7 @@ class FattMerchantApi {
         return result.data;
       })
       .catch((error) => {
-        console.log('this is my error', error);
-        console.error(`ERROR in getItems': ${error.message}`);
+        console.error(`ERROR in getItems: ${error.message}`);
       });
   }
 
@@ -42,6 +41,7 @@ class FattMerchantApi {
    * @see Fattmerchant {@link https://fattmerchant.docs.apiary.io/#reference/0/invoices/create-an-invoice Create an Invoice Docs}
    */
   public static async createAnInvoice({
+    memo,
     tax,
     subtotal,
     lineItems,
@@ -49,13 +49,19 @@ class FattMerchantApi {
     tax: string;
     subtotal: string;
     lineItems: item[];
+    memo: string;
   }) {
     return axios({
       method: 'post',
       url: `${this.FM_API}/invoice`,
       headers: this.headers,
       data: {
-        meta: { tax: tax, subtotal: subtotal, lineItems: lineItems },
+        meta: {
+          memo: memo,
+          tax: tax,
+          subtotal: subtotal,
+          lineItems: lineItems,
+        },
         // required by api
         total: subtotal,
         // required by api
@@ -68,6 +74,25 @@ class FattMerchantApi {
       })
       .catch((error) => {
         console.error(`Error in createAnInvoice: ${error.message}`);
+      });
+  }
+  /**
+   * returns promise of axios 'get' to /customer
+   *
+   * @see Fattmerchant {@link https://fattmerchant.docs.apiary.io/#reference/0/customers/find-all-customers Find All Customers}
+   */
+  public static async findAllCustomers() {
+    return axios({
+      method: 'get',
+      url: `${this.FM_API}/customer`,
+      headers: this.headers,
+    })
+      .then((result) => {
+        console.log(result.status, result.statusText);
+        return result.data;
+      })
+      .catch((error) => {
+        console.log(`ERROR in findAllCustomers: ${error.message}`);
       });
   }
 }
