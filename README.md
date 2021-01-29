@@ -81,8 +81,8 @@ Front End application that allows a user to create a new Invoice either with alr
 #### Bonus
 
 - [x] Make _Some_ UI changes when the invoice is created
-- [ ] Allow the user to choose a customer:
-  - [ ] do a GET to `customer` resource
+- [x] Allow the user to choose a customer:
+  - [x] do a GET to `customer` resource
 - [ ] Line item pagination
 - [ ] Line item autofill
 - [x] Take into account line items which are discounted
